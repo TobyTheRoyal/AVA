@@ -1,0 +1,569 @@
+/* HTML und Body immer über volle Höhe, mit dem gewünschten Gradient */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* Hintergrund: 
+       - Die erste Ebene ist der lineare Gradient (nicht wiederholt) und
+         wird auf 100vh Größe begrenzt.
+       - Die zweite Ebene ist die solide Farbe (#1a1a1a), die den restlichen Bereich ausfüllt.
+    */
+    background: 
+      linear-gradient(
+        to bottom,
+        #ff66b2 0%,
+        #ff66b2 15%,
+        #d45caa 30%,
+        #5a5a5a 55%,
+        #333333 75%,
+        #1a1a1a 100%
+      ) no-repeat,
+      #1a1a1a;
+    background-size: 100% 100vh;  /* Der Gradient ist 100vh hoch */
+    background-attachment: scroll;  /* Normaler Scroll-Effekt */
+  }
+  
+  /* CSS-Variablen für konsistente Farben */
+  :root {
+    --primary-color: #ff66b2;
+    --primary-color-hover: white;
+    --background-gradient: linear-gradient(
+        to bottom,
+        #ff66b2 0%,
+        #ff66b2 15%,
+        #d45caa 30%,
+        #5a5a5a 55%,
+        #333333 75%,
+        #1a1a1a 100%
+      );
+    --card-background: rgba(255, 255, 255, 0.05);
+    --glass-background: rgba(255, 255, 255, 0.1);
+    --text-color: #ffffff;
+    --accent-color: #ffffff;
+    --shadow-light: rgba(255, 255, 255, 0.05);
+    --shadow-dark: rgba(0, 0, 0, 0.7);
+    --light-gray: #d3d3d3;
+  }
+  
+  /* Grundlegende Stile */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text-color);
+  }
+  
+  /* App-Container */
+  .app-container {
+    padding: 20px;
+    background: transparent;
+  }
+  
+  /* Overview (Playlist-Übersicht) */
+  .overview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .overview-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+  
+  /* Playlist-Karte in Overview */
+  .playlist-card {
+    background: var(--card-background);
+    border-radius: 20px;
+    overflow: hidden;
+    width: 320px;
+    box-shadow: 0px 8px 20px var(--shadow-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .playlist-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 12px 30px var(--shadow-dark);
+  }
+  
+  .playlist-image {
+    width: 100%;
+    display: block;
+  }
+  
+  .playlist-details {
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .playlist-details h2 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--accent-color);
+  }
+  
+  .playlist-details p {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #b3b3b3;
+  }
+  
+  /* Playlist-Seite */
+  .playlist-page {
+    padding: 20px;
+    padding-bottom: 120px; /* Platz für das fixierte Control-Panel */
+  }
+  
+  .back-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: color 0.3s;
+  }
+  
+  .back-btn:hover {
+    color: var(--primary-color-hover);
+  }
+  
+  /* Header-Bereich in der Playlist-Seite */
+  .playlist-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .playlist-header-image {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0px 8px 20px var(--shadow-dark);
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+  }
+  
+  .playlist-header-image:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Songs-Liste (als einfache Liste) */
+/* Header-Bereich der Songliste */
+
+/* Header der Songliste */
+.songs-list-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+  }
+  
+  .header-number {
+    width: 50px; /* Feste Breite für die Nummer */
+    text-align: center;
+  }
+  
+  .header-title {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .header-duration {
+    width: 80px; /* Feste Breite für die Dauer-Spalte */
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+/* Songzeilen – Layout der Songliste */
+.song-list-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .song-list-item .song-title.active {
+    color: #ff66b2;          /* Pink */
+    text-shadow: 0 0 8px #ff66b2;  /* Leuchtender Effekt */
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  
+  /* Feste Breite für die Songnummer */
+  .song-number {
+    width: 50px;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--accent-color);
+  }
+  
+  /* Container für Cover und Text */
+  .song-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 10px;
+  }
+
+  .song-list-item.active .song-title {
+    color: #ff66b2;          /* Pink */
+    text-shadow: 0 0 8px #ff66b2;  /* Leuchtender Effekt */
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+
+  .song-list-item:hover .song-title {
+    color: #ff66b2;           /* Pink */
+    text-shadow: 0 0 8px #ff66b2; /* Stärkerer Glow-Effekt */
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  
+  /* Coverbild */
+  .song-cover {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  /* Container für Songtitel und Artist (vertikal gestapelt) */
+  .song-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Songtitel – größer und fett */
+  .song-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.song-title:hover,
+.song-title:focus {
+    color: #ff66b2; /* Leuchtendes Pink */
+    text-shadow: 0 0 10px #ff66b2; /* Glow-Effekt */
+}
+  
+  /* Künstler – kleiner und in hellerer Farbe */
+  .song-artist {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+  }
+  
+  /* Songdauer, wie bisher */
+  .song-duration {
+    width: 80px;
+    text-align: right;
+    font-size: 0.9rem;
+    color: #b3b3b3;
+  }
+  
+  /* Header der Songliste (bleibt wie gehabt) */
+  .songs-list-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+  }
+  
+  .header-number {
+    width: 50px;
+    text-align: center;
+  }
+  
+  .header-title {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .header-duration {
+    width: 80px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+/* Fixiertes Control-Panel */
+.control-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #000000;
+    padding: 15px 0;
+    box-shadow: 0 -2px 10px var(--shadow-dark);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: flex;
+    justify-content: center;
+  }
+  
+
+  /* Gesamtcontainer mit zwei Zeilen */
+  .control-content {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Steuerungselemente in der Mitte */
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px; /* Minimaler Abstand an den Seiten */
+    position: relative; /* Falls wir absolute Positionierung nutzen */
+}
+  
+  /* Obere Zeile: Linker Bereich – Cover, Titel & Künstler, ganz links ausgerichtet */
+  .control-info {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto; /* Nimmt nur den nötigen Platz ein */
+    min-width: 250px;
+    justify-content: flex-start;
+    position: absolute;
+    left: 10px; /* Abstand vom linken Rand */
+}
+  
+  /* Coverbild */
+  .control-cover {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  /* Text (Titel und Künstler) */
+  .control-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .control-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+  }
+  
+  .control-artist {
+    font-size: 1rem;
+    color: #b3b3b3;
+  }
+  
+  /* Untere Zeile: Steuerungselemente und Fortschrittsanzeige, zentriert */
+  .control-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1; /* Nutzt den verbleibenden Platz */
+}
+  
+  /* Buttons-Bereich */
+  .buttons-section {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* Gemeinsame Stile für alle Control-Buttons */
+  .control-btn {
+    border: none;
+    border-radius: 50%;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s, color 0.3s;
+    box-shadow: 2px 2px 5px var(--shadow-dark);
+  }
+  
+  /* Play/Pause-Button: weißer Hintergrund, Icon in Primärfarbe */
+  .control-btn.play-pause {
+    background: #ffffff; /* Weißer Hintergrund */
+    color: black;
+    width: 50px; /* Kleinere Kreisgröße */
+    height: 50px;
+    border-radius: 50%; /* Perfekte Rundung */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px var(--shadow-dark);
+    transition: transform 0.2s, background 0.3s, color 0.3s;
+}
+
+.control-btn.play-pause:hover {
+    background: #f0f0f0; /* Leichter Hover-Effekt */
+}
+
+/* Icon-Größe anpassen */
+.control-btn.play-pause svg {
+    font-size: 24px; /* Optimale Größe */
+}
+  
+  /* Andere Buttons: Standardmäßig transparent, Icon in Hellgrau; beim Hover: Hintergrund schwarz, Icon weiß */
+  .control-btn.other {
+    background: transparent;
+    color: var(--light-gray);
+  }
+  .control-btn.other:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+  
+  /* Fortschrittsanzeige */
+  .progress-section {
+    width: 100%;
+    max-width: 700px; /* Falls nicht breit genug, auf 800px erhöhen */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+  .time-display {
+    font-size: 0.9rem;
+    width: 40px;
+    text-align: center;
+  }
+  .progress-bar {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background-color: #888;
+    border-radius: 4px;
+    outline: none;
+    transition: background-color 0.3s;
+  }
+  .progress-bar:hover {
+    background-color: #aaa;
+  }
+  .progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ff66b2;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .progress-bar::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+  }
+  .progress-bar::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ff66b2;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .progress-bar::-moz-range-thumb:hover {
+    transform: scale(1.1);
+  }
+  .time-display {
+    font-size: 0.9rem;
+    width: 40px;
+    text-align: center;
+  }
+  
+  /* Steuerungsknöpfe */
+  .buttons-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* Gemeinsame Stile für alle Control-Buttons */
+  .control-btn {
+    border: none;
+    border-radius: 50%;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s, color 0.3s;
+    box-shadow: 2px 2px 5px var(--shadow-dark);
+  }
+  
+  /* Spezifische Stile */
+  /* Play/Pause-Button: weißer Hintergrund, Icon in Primärfarbe */
+  .control-btn.play-pause {
+    background: #ffffff;
+    color: black;
+  }
+  
+  .control-btn.play-pause:hover {
+    background: #f0f0f0;
+  }
+  
+  /* Zurück- und Vorspulen-Buttons: standardmäßig transparent, Icon in hellgrau;
+     beim Hover: Hintergrund schwarz, Icon leuchtend weiß */
+  .control-btn.other {
+    background: transparent;
+    color: var(--light-gray);
+  }
+  
+  .control-btn.other:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .equalizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5px;
+    width: 15px;   /* Breite der Equalizer-Anzeige */
+    height: 15px;  /* Höhe der Equalizer-Anzeige */
+    margin-left: 15px; /* Verschiebt die Anzeige weiter nach rechts */
+  }
+  
+  .equalizer .bar {
+    background-color: #ff66b2;
+    width: 3px;
+    height: 10px;
+    animation: equalize 2s infinite; /* Schneller animiert (0.5 Sekunden) */
+  }
+  
+  /* Verzögerungen für die einzelnen Balken, hier halbiert im Vergleich zur 1s-Animation */
+  .equalizer .bar:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .equalizer .bar:nth-child(2) {
+    animation-delay: 0.05s;
+  }
+  .equalizer .bar:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  .equalizer .bar:nth-child(4) {
+    animation-delay: 0.15s;
+  }
+  
+  @keyframes equalize {
+    0%   { height: 2px; }
+    10%  { height: 20px; }
+    20%  { height: 5px; }
+    30%  { height: 18px; }
+    40%  { height: 7px; }
+    50%  { height: 16px; }
+    60%  { height: 10px; }
+    70%  { height: 15px; }
+    80%  { height: 6px; }
+    90%  { height: 20px; }
+    100% { height: 2px; }
+  }
